@@ -9,7 +9,9 @@ import (
 )
 
 func main() {
-	var slae slae.SLAE
+	slae := slae.SLAE{}
+	reader := reader.OSReader{}
+
 	slae.ParseSize(reader.ReadFile("slaeSize1"))
 	slae.ParseMatrix(reader.ReadFile("matrix1"))
 	slae.ParseRightVec(reader.ReadFile("rightVec1"))

@@ -3,10 +3,19 @@ package fileMethods
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"os"
 )
 
-func ReadFile(fileName string) (buf string) {
+type Reader interface {
+	ReadFile(fileName string) string
+}
+
+type OSReader struct{}
+
+type IOReader struct{}
+
+func (OSReader) ReadFile(fileName string) (buf string) {
 	file, err := os.Open(fileName)
 
 	check(err, "ReaderOS fail")
@@ -20,6 +29,14 @@ func ReadFile(fileName string) (buf string) {
 	}
 
 	return
+}
+
+func (IOReader) ReadFile(fileName string) string {
+	data, err := ioutil.ReadFile(fileName)
+
+	check(err, "ReaderIO fail")
+
+	return string(data)
 }
 
 func WriteMatrixToFile(matrix *[][]int, fileName string) {
